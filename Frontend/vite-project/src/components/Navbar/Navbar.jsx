@@ -6,7 +6,7 @@ const Navbar = () => {
     <div className="navbar">
       <h2>I like that you like to eat</h2>
       <div className="links">
-        <Link to="/register">login / register</Link>
+        <Link to="/authenticate">login / register</Link>
       </div>
     </div>
   );

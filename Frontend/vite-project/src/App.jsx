@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./components/HomePage";
 import AuthContainer from "./components/RegisterLogin/AuthContainer";
-import Login from "./components/RegisterLogin/Login";
 import Footer from "./components/Footer";
+import DashboardContainer from "./components/Dashboard/DashboardContainer";
 
 function App() {
   return (
@@ -12,8 +12,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" Component={HomePage} />
-        <Route path="/register" Component={AuthContainer} />
-        <Route path="/login" Component={Login} />
+        <Route path="/authenticate" Component={AuthContainer} />
+        <Route path="/dashboard" Component={DashboardContainer} />
       </Routes>
       <Footer />
     </BrowserRouter>
