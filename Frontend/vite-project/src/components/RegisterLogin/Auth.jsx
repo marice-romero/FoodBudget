@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-const Register = ({ onAccountCreate }) => {
+const Register = ({ onAccountCreate, onLogin }) => {
   const [newUser, setNewUser] = useState({
     email: "",
     username: "",
     password: "",
   });
+  const [isRegister, setIsRegister] = useState(false);
 
   const handleInputChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -14,7 +14,11 @@ const Register = ({ onAccountCreate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAccountCreate(newUser);
+    if (isRegister) {
+      onAccountCreate(newUser);
+    } else {
+      onLogin(newUser);
+    }
   };
 
   return (
@@ -28,14 +32,16 @@ const Register = ({ onAccountCreate }) => {
           value={newUser.email}
           onChange={handleInputChange}
         />
-        <label htmlFor="username">choose your handle</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={newUser.username}
-          onChange={handleInputChange}
-        />
+        {isRegister && <label htmlFor="username">choose your handle</label>}
+        {isRegister && (
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={newUser.username}
+            onChange={handleInputChange}
+          />
+        )}
         <label htmlFor="password">enter a password</label>
         <input
           type="password"
@@ -44,9 +50,14 @@ const Register = ({ onAccountCreate }) => {
           value={newUser.password}
           onChange={handleInputChange}
         />
-        <button type="submit">register</button>
+        <button type="submit">{isRegister ? "register" : "login"}</button>
       </form>
-      <Link to="/login">already a member? sign in here.</Link>
+
+      <button onClick={() => setIsRegister(!isRegister)}>
+        {isRegister
+          ? "already a member? sign in here."
+          : "need to create an account? sign up here."}
+      </button>
     </div>
   );
 };
