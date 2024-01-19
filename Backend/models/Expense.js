@@ -5,18 +5,14 @@ const expenseSchema = new mongoose.Schema(
     date: {
       type: Date,
     },
+    location: {
+      type: String,
+      required: "please provide a location!",
+    },
     type: {
       type: String,
       enum: {
-        values: [
-          "grocery",
-          "breakfast outing",
-          "lunch outing",
-          "dinner outing",
-          "snack outing",
-          "drinks",
-          "other",
-        ],
+        values: ["grocery", "outing", "other"],
         message: "must select a valid type",
       },
     },
@@ -25,6 +21,10 @@ const expenseSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    amountSpent: {
+      type: Number,
+      required: [true, "please provide an amount!"],
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
