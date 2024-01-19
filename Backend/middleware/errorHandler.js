@@ -1,4 +1,4 @@
-const errorHandlerMiddleware = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
   console.log(err);
   let customError = {
     statusCode: err.statusCode || 500,
@@ -24,4 +24,4 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   return res.status(customError.statusCode).json({ msg: customError.msg });
 };
 
-module.exports = errorHandlerMiddleware;
+module.exports = errorHandler;
