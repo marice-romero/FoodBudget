@@ -9,7 +9,7 @@ import DashboardContainer from "./components/Dashboard/DashboardContainer";
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         <Route path="/" Component={HomePage} />
         <Route path="/authenticate" Component={AuthContainer} />
