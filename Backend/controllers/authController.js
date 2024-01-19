@@ -6,7 +6,7 @@ const register = async (req, res) => {
 
   if (!email || !password || !username) {
     res.status(400);
-    throw new Error("please provide name, email, and password.");
+    throw new Error("please provide username, email, and password.");
   }
 
   if (await User.findOne({ email })) {
