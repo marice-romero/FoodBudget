@@ -1,6 +1,7 @@
 const Expense = require("../models/Expense");
+const { BadRequestError, NotFoundError } = require("../errors");
 
-const getAllQuotes = async (req, res) => {
+const getAllExpenses = async (req, res) => {
   const { search, location, type, tag, sort } = req.query;
   const searchTerm = search || "";
 
@@ -45,13 +46,63 @@ const getAllQuotes = async (req, res) => {
 };
 
 const getExpense = async (req, res) => {
-  const {
-    user: { userID },
-    params: { id: expenseID },
-  } = req;
+  const { _id } = req.params;
 
   const expense = await Expense.findOne({
-    _id: expenseID,
-    createdBy: userID,
+    _id,
+    createdBy: req.user._id,
   });
+
+  if (!expense) {
+    throw new NotFoundError("Could not find expense");
+  }
+
+  res.status(200).json({ expense });
+};
+
+const createExpense = async (req, res) => {
+  req.body.createdBy = req.user._id;
+  const expense = await Expense.create(req.body);
+  res.status(201).json({ expense, msg: "Expense added!" });
+};
+
+const updateExpense = async (req, res) => {
+  const { _id } = req.params;
+
+  const updatedExpense = await Expense.findOneAndUpdate(
+    { _id, createdBy: req.user._id },
+    req.body,
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedExpense) {
+    res.status(400);
+    throw new NotFoundError("Could not find expense");
+  }
+
+  res.status(200).json({ updatedExpense, msg: "Expense updated!" });
+};
+
+const deleteExpense = async (req, res) => {
+  const { _id } = req.params;
+
+  const expense = await Expense.findOneAndDelete({
+    _id,
+    createdBy: req.user._id,
+  });
+
+  if (!expense) {
+    res.status(400);
+    throw new NotFoundError("Could not find expense");
+  }
+
+  res.json({ msg: "Expense successfully deleted" });
+};
+
+module.exports = {
+  getAllExpenses,
+  getExpense,
+  createExpense,
+  updateExpense,
+  deleteExpense,
 };

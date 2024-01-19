@@ -23,9 +23,10 @@ const { authenticateUser } = require("./middleware/authHandler");
 
 // routers
 const authRouter = require("./routes/authRouter");
+const expensesRouter = require("./routes/expensesRouter");
 
 // error handlers
-const { errorHandler } = require("./middleware/errorHandler");
+const errorHandler = require("./middleware/errorHandler");
 
 // middleware
 app.use(
@@ -58,6 +59,9 @@ require("./utils/passportConfig")(passport);
 
 // routes
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/expenses", authenticateUser, expensesRouter);
+
+app.use(errorHandler);
 
 const port = process.env.PORT || 4001;
 
